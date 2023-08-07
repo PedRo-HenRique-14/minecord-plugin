@@ -1,0 +1,20 @@
+BOT-TOKEN: 'token'
+
+GUILD_ID: 0
+
+textChannels:
+  globalChannel:
+    # Enviar informações globais para o Discord?
+    enable: false
+    # Id do canal do discord para global channel
+    ID: 0
+  pluginLogChannel:
+    # Enviar logs do plugin para o Discord?
+    enable: false
+    # Id do canal para logs do plugin
+    ID: 0
+  discordToMinecraftChannel:
+    # Transferir mensagens do Discord para o Minecraft?
+    enable: false
+    # Id do canal que deseja coletar as mensagens para transferência
+    ID: 0
