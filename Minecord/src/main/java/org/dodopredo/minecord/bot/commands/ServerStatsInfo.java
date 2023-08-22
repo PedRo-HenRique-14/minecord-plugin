@@ -27,6 +27,11 @@ public class ServerStatsInfo implements ICommand {
     }
 
     @Override
+    public List<String[]> getAutoComplete() {
+        return null;
+    }
+
+    @Override
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().queue();
 
@@ -46,7 +51,7 @@ public class ServerStatsInfo implements ICommand {
         }
 
         EmbedBuilder embed = new EmbedBuilder();
-        embed.setTitle("✨ Arísia Roleplay ✨");
+        embed.setTitle(String.format("✨ %s✨", ServerData.getName()));
         embed.setThumbnail("https://cdn.discordapp.com/attachments/1115799046234321008/1126970134796439612/OIG_64.png");
         embed.addField("IP:", String.format("", serverIp), false);
         embed.addField("Versão do servidor:", String.format("%s", serverVersion), false);

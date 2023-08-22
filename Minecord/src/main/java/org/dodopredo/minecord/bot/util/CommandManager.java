@@ -1,8 +1,10 @@
 package org.dodopredo.minecord.bot.util;
 
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import org.bukkit.Bukkit;
 import org.dodopredo.minecord.Minecord;
 import org.dodopredo.minecord.bot.util.interfaces.ICommand;
@@ -10,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CommandManager extends ListenerAdapter {
     private List<ICommand> commands = new ArrayList<>();
@@ -29,9 +33,34 @@ public class CommandManager extends ListenerAdapter {
 
     }
 
-    public void add(ICommand command){
-        // Adiciona um comando na lista de commandos
-        commands.add(command);
+    @Override
+    public void onCommandAutoCompleteInteraction(@NotNull CommandAutoCompleteInteractionEvent event) {
+        /*
+        Carrega o auto completar dos comandos.
+         */
+        for (ICommand command : commands){
+            if (command.getCommandName().equals(event.getName())){
+                for (String[] autoComplete : command.getAutoComplete()){
+                    if (event.getFocusedOption().getName().equals(autoComplete[0])){
+                        String[] words = new String[autoComplete.length - 1];
+
+                        for (Integer x = 1; x < autoComplete.length; x++){
+
+                            words[x - 1] = autoComplete[x];
+                        }
+
+                        List<Command.Choice> options = Stream.of(words)
+                                .filter(word -> word.startsWith(event.getFocusedOption().getValue()))
+                                .map(word -> new Command.Choice(word, word))
+                                .collect(Collectors.toList());
+                        event.replyChoices(options).queue();
+
+                    }
+                }
+
+            }
+        }
+
     }
 
     public void updateSlashCommands(Long guildId) {
@@ -69,6 +98,11 @@ public class CommandManager extends ListenerAdapter {
         }
 
 
+    }
+
+    public void add(ICommand command){
+        // Adiciona um comando na lista de commandos
+        commands.add(command);
     }
 
 }

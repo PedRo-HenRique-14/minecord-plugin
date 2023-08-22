@@ -44,10 +44,30 @@ public class PlayerInfo implements ICommand {
 
         List<OptionData> commandOptions = new ArrayList<>();
 
-        commandOptions.add(new OptionData(OptionType.STRING, "nome", "Nome do jogador.", false));
+        commandOptions.add(new OptionData(OptionType.STRING, "nome", "Nome do jogador.", false).setAutoComplete(true));
         commandOptions.add(new OptionData(OptionType.STRING, "uuid", "Insira a UUID do jogador.", false));
 
         return commandOptions;
+    }
+
+    @Override
+    public List<String[]> getAutoComplete() {
+        List<String[]> autoComplete = new ArrayList<>();
+        String[] playersNameList = new String[OfflinePlayers.getInt() + 1];
+
+        playersNameList[0] = "nome";
+
+        Integer x = 1;
+        for (OfflinePlayer player : OfflinePlayers.getListRaw()){
+
+            playersNameList[x] = player.getName();
+            x++;
+
+        }
+
+        autoComplete.add(playersNameList);
+
+        return autoComplete;
     }
 
     @Override

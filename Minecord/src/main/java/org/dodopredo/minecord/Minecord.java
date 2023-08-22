@@ -96,6 +96,7 @@ public final class Minecord extends JavaPlugin {
         COMMAND_MANAGER.add(new Ping());
         COMMAND_MANAGER.add(new Ajuda());
         COMMAND_MANAGER.add(new Version());
+        COMMAND_MANAGER.add(new StatusRank());
     }
 
     private JDA discordClientBuild(){

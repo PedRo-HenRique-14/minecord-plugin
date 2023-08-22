@@ -25,6 +25,11 @@ public class Version implements ICommand {
     }
 
     @Override
+    public List<String[]> getAutoComplete() {
+        return null;
+    }
+
+    @Override
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().setEphemeral(true).queue();
         EmbedBuilder embed = new EmbedBuilder();

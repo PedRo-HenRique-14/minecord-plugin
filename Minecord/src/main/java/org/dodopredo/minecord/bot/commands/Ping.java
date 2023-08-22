@@ -24,6 +24,11 @@ public class Ping implements ICommand {
     }
 
     @Override
+    public List<String[]> getAutoComplete() {
+        return null;
+    }
+
+    @Override
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().setEphemeral(true).queue();
         long botPingValue= Minecord.getJda().getGatewayPing();

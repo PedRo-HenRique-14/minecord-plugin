@@ -16,4 +16,9 @@ public class ServerData {
         return version[2].replace(")", "");
     }
 
+    public static String getName(){
+        String serverName = Bukkit.getServer().getName();
+        return serverName;
+    }
+
 }

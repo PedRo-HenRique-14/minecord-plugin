@@ -24,6 +24,11 @@ public class Ajuda implements ICommand {
     }
 
     @Override
+    public List<String[]> getAutoComplete() {
+        return null;
+    }
+
+    @Override
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().queue();
 
@@ -35,7 +40,9 @@ public class Ajuda implements ICommand {
                 "`info_jogador [UUID/nome]`- Mostra algumas informações sobre um jogador específico;\n" +
                 "`info_servidor` - Algumas informações sobre o servidor;\n" +
                 "`ping` - Latência do bot;\n" +
-                "`versão` - Verifica a versão atual do plugin.");
+                "`versão` - Verifica a versão atual do plugin.\n\n" +
+                "Caso você tenha dúvidas sobre a utilização dos comandos, " +
+                "você pode acessar a wiki do bot clicando [aqui](https://github.com/PedRo-HenRique-14/Minecord-Wiki).");
         event.getHook().sendMessageEmbeds(embed.build()).queue();
     }
 }
