@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dodopredo.minecord.bot.commands.*;
@@ -91,7 +90,7 @@ public final class Minecord extends JavaPlugin {
     private void slashCommandsSetup() {
 
         // Registro de comandos
-        COMMAND_MANAGER.add(new MinecraftInfo());
+        COMMAND_MANAGER.add(new ServerStatsInfo());
         COMMAND_MANAGER.add(new OnlinePlayerList());
         COMMAND_MANAGER.add(new PlayerInfo());
         COMMAND_MANAGER.add(new Ping());

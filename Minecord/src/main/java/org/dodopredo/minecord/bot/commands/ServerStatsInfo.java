@@ -10,7 +10,7 @@ import org.dodopredo.minecord.plugin.util.ServerData;
 
 import java.util.List;
 
-public class MinecraftInfo implements ICommand {
+public class ServerStatsInfo implements ICommand {
     @Override
     public String getCommandName() {
         return "info_servidor";
