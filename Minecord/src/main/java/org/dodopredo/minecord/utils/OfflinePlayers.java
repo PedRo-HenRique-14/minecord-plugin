@@ -1,7 +1,8 @@
-package org.dodopredo.minecord.plugin.util;
+package org.dodopredo.minecord.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Statistic;
 
 public class OfflinePlayers {
 
@@ -11,6 +12,14 @@ public class OfflinePlayers {
 
     public static OfflinePlayer[] getListRaw(){
         return Bukkit.getServer().getOfflinePlayers();
+    }
+
+    public static Double getTimePlayed(OfflinePlayer player){
+
+        Double timePlayed;
+        timePlayed = Double.valueOf(player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 72000);
+        return timePlayed;
+
     }
 
 }

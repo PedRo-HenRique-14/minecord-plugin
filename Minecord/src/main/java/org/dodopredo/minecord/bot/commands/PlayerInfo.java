@@ -7,8 +7,8 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
-import org.dodopredo.minecord.bot.util.interfaces.ICommand;
-import org.dodopredo.minecord.plugin.util.OfflinePlayers;
+import org.dodopredo.minecord.utils.interfaces.ICommand;
+import org.dodopredo.minecord.utils.OfflinePlayers;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

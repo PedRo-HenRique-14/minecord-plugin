@@ -1,4 +1,4 @@
-package org.dodopredo.minecord.bot.util.interfaces;
+package org.dodopredo.minecord.utils.interfaces;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;

@@ -1,4 +1,4 @@
-package org.dodopredo.minecord.bot.util;
+package org.dodopredo.minecord.utils;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import org.bukkit.Bukkit;
 import org.dodopredo.minecord.Minecord;
-import org.dodopredo.minecord.bot.util.interfaces.ICommand;
+import org.dodopredo.minecord.utils.interfaces.ICommand;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

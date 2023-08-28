@@ -4,8 +4,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import org.dodopredo.minecord.bot.util.interfaces.ICommand;
-import org.dodopredo.minecord.plugin.util.OnlinePlayers;
+import org.dodopredo.minecord.utils.interfaces.ICommand;
+import org.dodopredo.minecord.utils.OnlinePlayers;
 
 import java.util.ArrayList;
 import java.util.List;

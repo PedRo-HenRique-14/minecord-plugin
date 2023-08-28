@@ -1,6 +1,8 @@
-package org.dodopredo.minecord.plugin.util;
+package org.dodopredo.minecord.utils;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
 public class OnlinePlayers {
@@ -30,6 +32,14 @@ public class OnlinePlayers {
 
     public static Integer getMaxLenght(){
         return Bukkit.getServer().getMaxPlayers();
+    }
+
+    public static Double getTimePlayed(OfflinePlayer player){
+
+        Double timePlayed;
+        timePlayed = Double.valueOf(player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 72000);
+        return timePlayed;
+
     }
 
 }

@@ -13,7 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dodopredo.minecord.bot.commands.*;
-import org.dodopredo.minecord.bot.util.CommandManager;
+import org.dodopredo.minecord.utils.CommandManager;
 import org.dodopredo.minecord.bot.listeners.MessageListener;
 import org.dodopredo.minecord.plugin.listeners.ChatListener;
 import org.dodopredo.minecord.plugin.listeners.PlayerJoinListener;
@@ -96,7 +96,7 @@ public final class Minecord extends JavaPlugin {
         COMMAND_MANAGER.add(new Ping());
         COMMAND_MANAGER.add(new Ajuda());
         COMMAND_MANAGER.add(new Version());
-        COMMAND_MANAGER.add(new StatusRank());
+        //COMMAND_MANAGER.add(new StatusRank());
     }
 
     private JDA discordClientBuild(){

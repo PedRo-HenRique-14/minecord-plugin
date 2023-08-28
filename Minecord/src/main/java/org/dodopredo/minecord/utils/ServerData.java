@@ -1,4 +1,4 @@
-package org.dodopredo.minecord.plugin.util;
+package org.dodopredo.minecord.utils;
 
 import org.bukkit.Bukkit;
 
