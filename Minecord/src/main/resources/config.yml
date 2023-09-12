@@ -1,6 +1,33 @@
+# Config version v1.1.0
+
 BOT-TOKEN: 'token'
 
 GUILD_ID: 0
+ADM_ROLE_ID: 0
+
+professions:
+  # whitelistedRoles refere-se aos cargos que tem permissão de utilizar os comandos /promover e /rebaixar
+  # Adicione os IDs dos cargos desta forma:
+  # - 123
+  # - 456
+  # - 789
+  # E assim por diante.
+  whitelistedRoles:
+    - 0
+    - 0
+    - 0
+  # professionsRolesIds se refere aos cargos de profissão que serão aplicados ao utilizar os comandos do bot /promover e /rebaixar
+  # Adicione os IDs dos cargos desta forma:
+  # - 123
+  # - 456
+  # - 789
+  # E assim por diante.
+  professionsRolesIds:
+    - 0
+    - 0
+    - 0
+  #bossRoleId refere-se ao cargo de chefe das profissões
+  bossRoleId: 0
 
 textChannels:
   globalChannel:
