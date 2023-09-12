@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.dodopredo.minecord.Minecord;
-import org.dodopredo.minecord.bot.util.interfaces.ICommand;
+import org.dodopredo.minecord.utils.interfaces.ICommand;
 
 import java.util.List;
 
@@ -21,6 +21,11 @@ public class Version implements ICommand {
 
     @Override
     public List<OptionData> getCommandOptions() {
+        return null;
+    }
+
+    @Override
+    public List<String[]> getAutoComplete() {
         return null;
     }
 

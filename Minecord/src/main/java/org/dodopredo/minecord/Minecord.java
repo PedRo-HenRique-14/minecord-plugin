@@ -8,18 +8,21 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dodopredo.minecord.bot.commands.*;
-import org.dodopredo.minecord.bot.util.CommandManager;
+import org.dodopredo.minecord.utils.CommandManager;
 import org.dodopredo.minecord.bot.listeners.MessageListener;
 import org.dodopredo.minecord.plugin.listeners.ChatListener;
 import org.dodopredo.minecord.plugin.listeners.PlayerJoinListener;
 
 import java.awt.*;
+import java.util.List;
 
 public final class Minecord extends JavaPlugin {
 
@@ -32,6 +35,10 @@ public final class Minecord extends JavaPlugin {
 
     public static long GUILD_ID;
 
+    //Discord Roles
+    public static long ADM_ROLE_ID;
+    public static long BOSS_ROLE_ID;
+
     //Discord Text Channels
     public static long GLOBAL_CHANNEL;
     public static long PLUGIN_LOG_CHANNEL;
@@ -41,6 +48,9 @@ public final class Minecord extends JavaPlugin {
     public static Boolean GLOBAL_CHANNEL_ENABLE;
     public static Boolean PLUGIN_LOG_CHANNEL_ENABLE;
     public static Boolean DISCORD_TO_MINECRAFT_ENABLE;
+
+    public static List<Long> PROFESSIONS_ROLES;
+    public static List<Long> WHITELISTED_PROFESSIONS_ROLE;
 
     private FileConfiguration config;
 
@@ -55,6 +65,7 @@ public final class Minecord extends JavaPlugin {
         JDA jda = discordClientBuild();
         getGuildId();
         textChannelsSetup();
+        getRolesId();
 
         //Discord Command Manager Setup
         COMMAND_MANAGER = new CommandManager();
@@ -91,12 +102,14 @@ public final class Minecord extends JavaPlugin {
     private void slashCommandsSetup() {
 
         // Registro de comandos
-        COMMAND_MANAGER.add(new MinecraftInfo());
+        COMMAND_MANAGER.add(new ServerStatsInfo());
         COMMAND_MANAGER.add(new OnlinePlayerList());
         COMMAND_MANAGER.add(new PlayerInfo());
         COMMAND_MANAGER.add(new Ping());
         COMMAND_MANAGER.add(new Ajuda());
         COMMAND_MANAGER.add(new Version());
+        COMMAND_MANAGER.add(new UserPromote());
+        //COMMAND_MANAGER.add(new StatusRank());
     }
 
     private JDA discordClientBuild(){
@@ -104,7 +117,10 @@ public final class Minecord extends JavaPlugin {
         try {
             jda = JDABuilder.createDefault(config.getString("BOT-TOKEN").trim()).setStatus(OnlineStatus.ONLINE)
                     .setActivity(Activity.playing("/help"))
-                    .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
+                    .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
+                    .setMemberCachePolicy(MemberCachePolicy.ALL)
+                    .setChunkingFilter(ChunkingFilter.ALL)
+                    .enableCache(CacheFlag.ROLE_TAGS)
                     .build()
                     .awaitReady();
         } catch (InterruptedException  | InvalidTokenException e) {
@@ -129,6 +145,14 @@ public final class Minecord extends JavaPlugin {
         if (GUILD_ID == (long)0){
             Bukkit.getConsoleSender().sendMessage("Invalid server ID.");
         }
+    }
+
+    private void getRolesId(){
+        PROFESSIONS_ROLES = config.getLongList("professions.professionsRolesIds");
+        WHITELISTED_PROFESSIONS_ROLE = config.getLongList("professions.whitelistedRoles");
+        ADM_ROLE_ID = config.getLong("ADM_ROLE_ID");
+        BOSS_ROLE_ID = config.getLong("professions.bossRoleId");
+
     }
 
     private void textChannelsSetup(){
