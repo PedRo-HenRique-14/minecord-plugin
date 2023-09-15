@@ -29,8 +29,8 @@ public class UserPromote implements ICommand {
     public List<OptionData> getCommandOptions() {
         List<OptionData> commandOptions = new ArrayList<>();
 
-        commandOptions.add(new OptionData(OptionType.USER, "usuário", "Nome do usuário", true));
-        commandOptions.add(new OptionData(OptionType.ROLE, "cargo", "Cargo para promover o usuário", true));
+        commandOptions.add(new OptionData(OptionType.USER, "usuário", "Nome do usuário que deseja promover.", true));
+        commandOptions.add(new OptionData(OptionType.ROLE, "cargo", "Cargo para promover o usuário.", true));
         commandOptions.add(new OptionData(OptionType.STRING, "adicionar_cargo_chefe", "Adicionar o cargo de chefe nesse usuário?", true).setAutoComplete(true));
 
         return commandOptions;
@@ -79,13 +79,12 @@ public class UserPromote implements ICommand {
             }
 
         }
-        System.out.println("Valid oprion: " + validRoleOption);
-        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+
         for (Long roleId : Minecord.WHITELISTED_PROFESSIONS_ROLE){ //Verifica se o usuário que executou o comando tem permissão de executá-lo
 
             for (Role userRoleId : event.getMember().getRoles()){
                 System.out.println(roleId + "/" + userRoleId.getId());
-                if (roleId.toString().equals(userRoleId.getId()) || event.getMember().getRoles().contains(Minecord.getJda().getRoleById(Minecord.BOSS_ROLE_ID))){
+                if (roleId.toString().equals(userRoleId.getId())){
                     commandExecutorHasPermission = true;
                     break;
                 }
@@ -110,7 +109,7 @@ public class UserPromote implements ICommand {
                 EmbedBuilder embedBuilder = new EmbedBuilder();
                 embedBuilder.setTitle("✅ Cargo atribuído com sucesso!");
                 embedBuilder.setDescription(String.format("Foram atribuídos os seguintes cargos: %s.", rolesDescription));
-                embedBuilder.setColor(new Color(46, 171, 28));
+                embedBuilder.setColor(new Color(28, 121, 171));
                 event.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
             } else {
                 event.deferReply().setEphemeral(true).queue();

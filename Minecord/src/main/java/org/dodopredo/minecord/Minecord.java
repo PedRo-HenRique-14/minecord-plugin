@@ -109,6 +109,7 @@ public final class Minecord extends JavaPlugin {
         COMMAND_MANAGER.add(new Ajuda());
         COMMAND_MANAGER.add(new Version());
         COMMAND_MANAGER.add(new UserPromote());
+        COMMAND_MANAGER.add(new UserDemote());
         //COMMAND_MANAGER.add(new StatusRank());
     }
 
@@ -178,6 +179,10 @@ public final class Minecord extends JavaPlugin {
 
             channel.sendMessageEmbeds(embed.build()).queue();
         }
+    }
+
+    public static void sendConsoleMessage(String message){
+        Bukkit.getConsoleSender().sendMessage(message);
     }
 
 
