@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.dodopredo.minecord.utils.interfaces.ICommand;
-import org.dodopredo.minecord.utils.OnlinePlayers;
+import org.dodopredo.minecord.utils.OnlinePlayerUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class OnlinePlayerList implements ICommand {
         String playersName = "";
 
         Integer pageOption = 0;
-        Double finalPage = Math.ceil(OnlinePlayers.getList().length / 5 + 0.5);
+        Double finalPage = Math.ceil(OnlinePlayerUtils.getList().length / 5 + 0.5);
 
         if (event.getOption("página") != null) {
 
@@ -64,15 +64,15 @@ public class OnlinePlayerList implements ICommand {
         Integer playerSectionFinal = pageOption * 5;
         Integer playerSectionInitial = playerSectionFinal - 5;
 
-        if (playerSectionFinal > OnlinePlayers.getList().length) {
-            playerSectionFinal = OnlinePlayers.getList().length;
+        if (playerSectionFinal > OnlinePlayerUtils.getList().length) {
+            playerSectionFinal = OnlinePlayerUtils.getList().length;
         }
 
         for (Integer x = 0; x <= 4; x++){
 
             if (x < playerSectionFinal - playerSectionInitial) {
 
-                playersName += String.format("\n%s", OnlinePlayers.getList()[playerSectionInitial + x].getName());
+                playersName += String.format("\n%s", OnlinePlayerUtils.getList()[playerSectionInitial + x].getName());
 
             } else {
 
@@ -86,7 +86,7 @@ public class OnlinePlayerList implements ICommand {
         embed.setTitle(String.format("%s de %.0f página(s).", pageOption, finalPage));
         embed.setDescription(String.format("**Lista de Jogadores Online**:%s", playersName));
         embed.setThumbnail("https://cdn.discordapp.com/attachments/1115799046234321008/1126969666384969869/OIG_-_2023-04-26T014120.png");
-        embed.addField("Total:", String.format("%s Online.", OnlinePlayers.getInt()), false);
+        embed.addField("Total:", String.format("%s Online.", OnlinePlayerUtils.getInt()), false);
 
         event.getHook().sendMessageEmbeds(embed.build()).queue();
     }

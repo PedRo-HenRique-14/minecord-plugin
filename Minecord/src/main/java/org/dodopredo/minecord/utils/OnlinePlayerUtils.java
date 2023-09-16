@@ -5,7 +5,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
-public class OnlinePlayers {
+public class OnlinePlayerUtils {
 
     public static Player[] getList(){
 

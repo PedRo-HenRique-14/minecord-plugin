@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 
-public class OfflinePlayers {
+public class OfflinePlayerUtils {
 
     public static Integer getInt(){
         return Bukkit.getServer().getOfflinePlayers().length;

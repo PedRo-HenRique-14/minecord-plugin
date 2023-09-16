@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 import org.dodopredo.minecord.utils.interfaces.ICommand;
-import org.dodopredo.minecord.utils.OfflinePlayers;
+import org.dodopredo.minecord.utils.OfflinePlayerUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -53,12 +53,12 @@ public class PlayerInfo implements ICommand {
     @Override
     public List<String[]> getAutoComplete() {
         List<String[]> autoComplete = new ArrayList<>();
-        String[] playersNameList = new String[OfflinePlayers.getInt() + 1];
+        String[] playersNameList = new String[OfflinePlayerUtils.getInt() + 1];
 
         playersNameList[0] = "nome";
 
         Integer x = 1;
-        for (OfflinePlayer player : OfflinePlayers.getListRaw()){
+        for (OfflinePlayer player : OfflinePlayerUtils.getListRaw()){
 
             playersNameList[x] = player.getName();
             x++;
@@ -92,7 +92,7 @@ public class PlayerInfo implements ICommand {
 
         }
 
-        OfflinePlayer[] offlinePlayers = OfflinePlayers.getListRaw();
+        OfflinePlayer[] offlinePlayers = OfflinePlayerUtils.getListRaw();
 
         playerExists = false;
 
