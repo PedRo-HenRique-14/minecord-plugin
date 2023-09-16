@@ -5,11 +5,10 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.bukkit.OfflinePlayer;
-import org.dodopredo.minecord.utils.OfflinePlayers;
+import org.dodopredo.minecord.utils.OfflinePlayerUtils;
 import org.dodopredo.minecord.utils.StatusSorter;
 import org.dodopredo.minecord.utils.interfaces.ICommand;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,7 +118,7 @@ public class StatusRank implements ICommand {
                     if (page == pageSelected) {
                         System.out.println("Pagina selecionada: " + page + "/" + pageSelected);
                         for (OfflinePlayer player : offlinePlayers) {
-                            elements += String.format("`%sº` - **%s** [%s hora(s) de jogo]\n", position, player.getName(), OfflinePlayers.getTimePlayed(player));
+                            elements += String.format("`%sº` - **%s** [%s hora(s) de jogo]\n", position, player.getName(), OfflinePlayerUtils.getTimePlayed(player));
                         }
                     }
                     page++;

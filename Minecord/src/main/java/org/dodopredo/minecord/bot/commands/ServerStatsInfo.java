@@ -4,8 +4,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.dodopredo.minecord.utils.interfaces.ICommand;
-import org.dodopredo.minecord.utils.OfflinePlayers;
-import org.dodopredo.minecord.utils.OnlinePlayers;
+import org.dodopredo.minecord.utils.OfflinePlayerUtils;
+import org.dodopredo.minecord.utils.OnlinePlayerUtils;
 import org.dodopredo.minecord.utils.ServerData;
 
 import java.util.List;
@@ -35,8 +35,8 @@ public class ServerStatsInfo implements ICommand {
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().queue();
 
-        Integer numberOnlinePlayers = OnlinePlayers.getInt();
-        Integer numberOfflinePlayers = OfflinePlayers.getInt();
+        Integer numberOnlinePlayers = OnlinePlayerUtils.getInt();
+        Integer numberOfflinePlayers = OfflinePlayerUtils.getInt();
 
         String serverIp = ServerData.getIp();
         String serverVersion = ServerData.getVersion();
@@ -55,7 +55,7 @@ public class ServerStatsInfo implements ICommand {
         embed.setThumbnail("https://cdn.discordapp.com/attachments/1115799046234321008/1126970134796439612/OIG_64.png");
         embed.addField("IP:", String.format("", serverIp), false);
         embed.addField("Versão do servidor:", String.format("%s", serverVersion), false);
-        embed.addField("\uD83D\uDFE2 Jogadores Online:", String.format("%s/%s Online.", numberOnlinePlayers, OnlinePlayers.getMaxLenght()), true);
+        embed.addField("\uD83D\uDFE2 Jogadores Online:", String.format("%s/%s Online.", numberOnlinePlayers, OnlinePlayerUtils.getMaxLenght()), true);
         embed.addField("\uD83D\uDD34 Jogadores Offline:", String.format("%s Offline", numberOfflinePlayers - numberOnlinePlayers), true);
         embed.addField("Apenas para Minecraft Original?", String.format("%s", minecraftOriginal), false);
 

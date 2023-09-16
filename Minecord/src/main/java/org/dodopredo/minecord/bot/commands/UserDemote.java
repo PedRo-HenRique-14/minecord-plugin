@@ -83,7 +83,7 @@ public class UserDemote implements ICommand {
         }
 
 
-        if (removeBossRole == "não" && roleOption == null){
+        if (removeBossRole.equals("não") && roleOption == null){
             event.deferReply().setEphemeral(true).queue();
             event.getHook().sendMessage("Nenhuma ação selecionada.").queue();
             return;

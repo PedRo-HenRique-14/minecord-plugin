@@ -1,7 +1,6 @@
 package org.dodopredo.minecord.utils;
 
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Statistic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,18 +11,18 @@ public class StatusSorter {
 
         List<OfflinePlayer> topRankList = new ArrayList<>();
 
-        for (OfflinePlayer player : OfflinePlayers.getListRaw()){
+        for (OfflinePlayer player : OfflinePlayerUtils.getListRaw()){
 
             topRankList.add(player);
 
         }
 
         Integer x = 0;
-        for (OfflinePlayer player : OfflinePlayers.getListRaw()){
+        for (OfflinePlayer player : OfflinePlayerUtils.getListRaw()){
 
             for (OfflinePlayer player1 : topRankList){
 
-                if (OfflinePlayers.getTimePlayed(player1) > OfflinePlayers.getTimePlayed(player)){
+                if (OfflinePlayerUtils.getTimePlayed(player1) > OfflinePlayerUtils.getTimePlayed(player)){
 
                     topRankList.set(x, player1);
 
