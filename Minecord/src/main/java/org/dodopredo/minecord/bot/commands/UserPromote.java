@@ -30,8 +30,8 @@ public class UserPromote implements ICommand {
         List<OptionData> commandOptions = new ArrayList<>();
 
         commandOptions.add(new OptionData(OptionType.USER, "usuário", "Nome do usuário que deseja promover.", true));
-        commandOptions.add(new OptionData(OptionType.ROLE, "cargo", "Cargo para promover o usuário.", true));
-        commandOptions.add(new OptionData(OptionType.STRING, "adicionar_cargo_chefe", "Adicionar o cargo de chefe nesse usuário?", true).setAutoComplete(true));
+        commandOptions.add(new OptionData(OptionType.ROLE, "cargo", "Cargo para promover o usuário.", false));
+        commandOptions.add(new OptionData(OptionType.STRING, "adicionar_cargo_chefe", "Adicionar o cargo de chefe nesse usuário?", false).setAutoComplete(true));
 
         return commandOptions;
     }
@@ -47,12 +47,44 @@ public class UserPromote implements ICommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         Guild guild = Minecord.getJda().getGuildById(Minecord.GUILD_ID);
-        Member member = event.getOption("usuário").getAsMember();
-        Role roleOption = event.getOption("cargo").getAsRole();
         Role bossRole = Minecord.getJda().getRoleById(Minecord.BOSS_ROLE_ID);
-        String addBossRole = event.getOption("adicionar_cargo_chefe").getAsString().toLowerCase();
+        Member memberSelected = event.getOption("usuário").getAsMember();
+        Role roleOption;
+        String addBossRole;
         Boolean validRoleOption = false;
         Boolean commandExecutorHasPermission = false;
+        Boolean userHasTheRole = false;
+        Boolean userHasTheBossRole = false;
+
+        if (event.getOption("cargo") != null){
+            roleOption = event.getOption("cargo").getAsRole();
+            for (Long role_id : Minecord.PROFESSIONS_ROLES){ //Verifica se o cargo escolhido pelo usuário está na lista de profissões válidas
+                if (role_id.toString().equals(roleOption.getId())){
+                    validRoleOption = true;
+                    break;
+                }
+            }
+            for (Role userRole : memberSelected.getRoles()){
+                if (userRole.getId().equals(roleOption.getId())){
+                    userHasTheRole = true;
+                    break;
+                }
+            }
+        } else {
+            roleOption = null;
+        }
+
+        if (event.getOption("adicionar_cargo_chefe") != null){
+            addBossRole = event.getOption("adicionar_cargo_chefe").getAsString().toLowerCase();
+        } else {
+            addBossRole = "não";
+        }
+
+        if (addBossRole.equals("não") && roleOption == null){
+            event.deferReply().setEphemeral(true).queue();
+            event.getHook().sendMessage("Nenhuma ação selecionada.").queue();
+            return;
+        }
 
         if (!addBossRole.equals("sim") && !addBossRole.equals("não")){
             event.deferReply().setEphemeral(true).queue();
@@ -64,63 +96,71 @@ public class UserPromote implements ICommand {
             return;
         }
 
-        System.out.println("Membro: "+member.getNickname());
-        System.out.println("ID (membro): "+member.getId());
-        System.out.println("Cargo: "+roleOption.getName());
-        System.out.println("ID (cargo): "+roleOption.getId());
-        System.out.println("Guild: "+guild.getName());
-        System.out.println("ID (guild): "+guild.getId());
-
-        for (Long role_id : Minecord.PROFESSIONS_ROLES){ //Verifica se o cargo escolhido pelo usuário está na lista de profissões válidas
-            System.out.println(role_id + "/" + roleOption.getId());
-            if (role_id.toString().equals(roleOption.getId())){
-                validRoleOption = true;
-                break;
-            }
-
-        }
-
         for (Long roleId : Minecord.WHITELISTED_PROFESSIONS_ROLE){ //Verifica se o usuário que executou o comando tem permissão de executá-lo
-
             for (Role userRoleId : event.getMember().getRoles()){
-                System.out.println(roleId + "/" + userRoleId.getId());
                 if (roleId.toString().equals(userRoleId.getId())){
                     commandExecutorHasPermission = true;
                     break;
                 }
-
             }
-
         }
-        System.out.println("Command executor has permission: " + commandExecutorHasPermission);
 
-        if (commandExecutorHasPermission){
-
-            if (validRoleOption){
-                event.deferReply().queue();
-                System.out.println("Adicionar cargo de chefe: " + addBossRole);
-                String rolesDescription = "";
-                if (addBossRole.equals("sim")) {
-                    guild.addRoleToMember(member, bossRole).queue();
-                    rolesDescription += String.format("%s, ", bossRole.getAsMention());
+        try {
+            for (Role userRole : memberSelected.getRoles()) {
+                if (userRole.getId().equals(bossRole.getId())) {
+                    userHasTheBossRole = true;
                 }
-                guild.addRoleToMember(member, roleOption).queue();
-                rolesDescription += String.format("%s", roleOption.getAsMention());
-                EmbedBuilder embedBuilder = new EmbedBuilder();
-                embedBuilder.setTitle("✅ Cargo atribuído com sucesso!");
-                embedBuilder.setDescription(String.format("Foram atribuídos os seguintes cargos: %s.", rolesDescription));
-                embedBuilder.setColor(new Color(28, 121, 171));
-                event.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
-            } else {
-                event.deferReply().setEphemeral(true).queue();
-                event.getHook().sendMessage("O cargo selecionado é inválido!").queue();
             }
-
-        } else {
+        } catch (NullPointerException e){
+            Minecord.sendConsoleMessage("BOSS_ROLE_ID is null.");
             event.deferReply().setEphemeral(true).queue();
-            event.getHook().sendMessage("Você não tem permissão de utilizar este comando!").queue();
+            event.getHook().sendMessage("Um erro aconteceu! Mas fique tranquilo(a), eu reportei aos ADMs.").queue();
+            return;
         }
 
-
+        String description = "";
+        if (commandExecutorHasPermission) {
+            if (!userHasTheBossRole && addBossRole.equals("sim")){
+                    guild.addRoleToMember(memberSelected, bossRole).queue();
+                    description += String.format("%s ", bossRole.getAsMention());
+            } else {
+                if (addBossRole.equals("sim")) {
+                    if (userHasTheBossRole) {
+                        event.deferReply().queue();
+                        event.getHook().sendMessage("O usuário já tem cargo de chefe.").queue();
+                        return;
+                    }
+                }
+            }
+            if (validRoleOption && !userHasTheRole){
+                guild.addRoleToMember(memberSelected, roleOption).queue();
+                description += String.format("%s ", roleOption.getAsMention());
+            } else {
+                if (roleOption != null) {
+                    if (validRoleOption == false) {
+                        event.deferReply().setEphemeral(true).queue();
+                        event.getHook().sendMessage("Cargo selecionado inválido.").queue();
+                        return;
+                    } else if (userHasTheBossRole) {
+                        event.deferReply().setEphemeral(true).queue();
+                        event.getHook().sendMessage("O usuário já tem o cargo selecionado, nenhuma ação necessária.").queue();
+                        return;
+                    }
+                }
+            }
+            event.deferReply().queue();
+            EmbedBuilder embedBuilder = new EmbedBuilder();
+            embedBuilder.setTitle("✅ Cargo(s) adicionado(s) com sucesso!");
+            embedBuilder.setDescription(String.format("Os seguintes cargos foram adicionados à %s: %s", memberSelected.getAsMention(), description));
+            embedBuilder.setThumbnail(memberSelected.getAvatarUrl());
+            embedBuilder.setColor(new Color(28, 121, 171));
+            event.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
+            return;
+        }
+        EmbedBuilder embedError = new EmbedBuilder();
+        embedError.setTitle("❎ Você não tem permissão para executar este comando!");
+        embedError.setColor(new Color(157, 10, 10));
+        event.deferReply().queue();
+        event.getHook().sendMessageEmbeds(embedError.build()).queue();
     }
 }
