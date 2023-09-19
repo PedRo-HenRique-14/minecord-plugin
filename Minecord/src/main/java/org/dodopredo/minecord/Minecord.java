@@ -117,7 +117,7 @@ public final class Minecord extends JavaPlugin {
 
         try {
             jda = JDABuilder.createDefault(config.getString("BOT-TOKEN").trim()).setStatus(OnlineStatus.ONLINE)
-                    .setActivity(Activity.playing("/help"))
+                    .setActivity(Activity.playing("Precisa de ajuda? Use /help."))
                     .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
                     .setMemberCachePolicy(MemberCachePolicy.ALL)
                     .setChunkingFilter(ChunkingFilter.ALL)
