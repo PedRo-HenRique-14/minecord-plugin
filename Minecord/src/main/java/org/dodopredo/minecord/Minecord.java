@@ -16,6 +16,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dodopredo.minecord.bot.commands.*;
+import org.dodopredo.minecord.plugin.commands.MedicalLog;
 import org.dodopredo.minecord.utils.CommandManager;
 import org.dodopredo.minecord.bot.listeners.MessageListener;
 import org.dodopredo.minecord.plugin.listeners.ChatListener;
@@ -28,8 +29,7 @@ public final class Minecord extends JavaPlugin {
 
     private static JDA jda;
     private static PluginManager pluginManager;
-
-
+    private static Minecord plugin;
     public static CommandManager COMMAND_MANAGER;
     public static String PLUGIN_VERSION;
 
@@ -40,14 +40,16 @@ public final class Minecord extends JavaPlugin {
     public static long BOSS_ROLE_ID;
 
     //Discord Text Channels
-    public static long GLOBAL_CHANNEL;
-    public static long PLUGIN_LOG_CHANNEL;
-    public static long DISCORD_TO_MINECRAFT_CHANNEL;
+    public static long GLOBAL_CHANNEL_ID;
+    public static long PLUGIN_LOG_CHANNEL_ID;
+    public static long DISCORD_TO_MINECRAFT_CHANNEL_ID;
+    public static long MEDICAL_LOG_CHANNEL_ID;
 
     //Discord Text Channels Enable
     public static Boolean GLOBAL_CHANNEL_ENABLE;
     public static Boolean PLUGIN_LOG_CHANNEL_ENABLE;
     public static Boolean DISCORD_TO_MINECRAFT_ENABLE;
+    public static Boolean MEDICAL_LOG_ENABLE;
 
     public static List<Long> PROFESSIONS_ROLES;
     public static List<Long> WHITELISTED_PROFESSIONS_ROLE;
@@ -56,6 +58,7 @@ public final class Minecord extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        plugin = this;
         config = getConfig();
         pluginManager = Bukkit.getPluginManager();
         loadDefaultConfig();
@@ -73,19 +76,15 @@ public final class Minecord extends JavaPlugin {
         // Atualizar comandos
         slashCommandsSetup();
         COMMAND_MANAGER.updateSlashCommands(GUILD_ID);
+        getCommand("registro-medico").setExecutor(new MedicalLog());
 
         // Registro de Eventos Discord
         try {
-
             jda.addEventListener(COMMAND_MANAGER);
             jda.addEventListener(new MessageListener());
-
         }catch (NullPointerException e){
-
             Bukkit.getConsoleSender().sendMessage("Impossible to load the Event Listeners, because the bot token is invalid.");
-
         }
-
 
         // Registro de Eventos Spigot
         pluginManager.registerEvents(new ChatListener(), this);
@@ -97,6 +96,10 @@ public final class Minecord extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public static Minecord getPlugin() {
+        return plugin;
     }
 
     private void slashCommandsSetup() {
@@ -127,7 +130,6 @@ public final class Minecord extends JavaPlugin {
         } catch (InterruptedException  | InvalidTokenException e) {
             Bukkit.getConsoleSender().sendMessage("Bot token is invalid.");
         }
-
         return jda;
     }
 
@@ -142,13 +144,13 @@ public final class Minecord extends JavaPlugin {
 
     private void getGuildId(){
         GUILD_ID = config.getLong("GUILD_ID");
-
         if (GUILD_ID == (long)0){
             Bukkit.getConsoleSender().sendMessage("Invalid server ID.");
         }
     }
 
     private void getRolesId(){
+
         PROFESSIONS_ROLES = config.getLongList("professions.professionsRolesIds");
         WHITELISTED_PROFESSIONS_ROLE = config.getLongList("professions.whitelistedRoles");
         ADM_ROLE_ID = config.getLong("ADM_ROLE_ID");
@@ -159,24 +161,23 @@ public final class Minecord extends JavaPlugin {
     private void textChannelsSetup(){
         // Busca os IDs dos canais de texto no config.yml, e armazena nas variáveis
 
-        GLOBAL_CHANNEL = config.getLong("textChannels.globalChannel.ID");
-        PLUGIN_LOG_CHANNEL = config.getLong("textChannels.pluginLogChannel.ID");
-        DISCORD_TO_MINECRAFT_CHANNEL = config.getLong("textChannels.discordToMinecraftChannel.ID");
-
+        GLOBAL_CHANNEL_ID = config.getLong("textChannels.globalChannel.ID");
+        PLUGIN_LOG_CHANNEL_ID = config.getLong("textChannels.pluginLogChannel.ID");
+        DISCORD_TO_MINECRAFT_CHANNEL_ID = config.getLong("textChannels.discordToMinecraftChannel.ID");
+        MEDICAL_LOG_CHANNEL_ID = config.getLong("textChannels.medicalLog.ID");
         GLOBAL_CHANNEL_ENABLE = config.getBoolean("textChannels.globalChannel.enable");
         PLUGIN_LOG_CHANNEL_ENABLE = config.getBoolean("textChannels.pluginLogChannel.enable");
         DISCORD_TO_MINECRAFT_ENABLE = config.getBoolean("textChannels.discordToMinecraftChannel.enable");
+        MEDICAL_LOG_ENABLE = config.getBoolean("textChannels.medicalLog.enable");
     }
 
     private void sendReadyEmbed(){
         // Cria e envia uma embed de inicialização do plugin
         if (PLUGIN_LOG_CHANNEL_ENABLE) {
-            TextChannel channel = jda.getTextChannelById(PLUGIN_LOG_CHANNEL);
-
+            TextChannel channel = jda.getTextChannelById(PLUGIN_LOG_CHANNEL_ID);
             EmbedBuilder embed = new EmbedBuilder();
             embed.setColor(new Color(255, 115, 0));
             embed.setTitle("Servidor Ligado!");
-
             channel.sendMessageEmbeds(embed.build()).queue();
         }
     }
@@ -184,6 +185,5 @@ public final class Minecord extends JavaPlugin {
     public static void sendConsoleMessage(String message){
         Bukkit.getConsoleSender().sendMessage(message);
     }
-
 
 }

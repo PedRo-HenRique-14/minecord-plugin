@@ -2,3 +2,14 @@ name: Minecord
 version: '${project.version}'
 main: org.dodopredo.minecord.Minecord
 api-version: 1.19
+commands:
+  registro-medico:
+    description: Realiza um registro médico no canal de registros do servidor do Discord.
+    usage: /<command>
+    aliases:
+      - rm
+    permission: minecord.registromedico
+permissions:
+  minecord.registromedico:
+    description: Permite que o usuário envie uma mensagem de registro ao canal de registro médico no Discord.
+    default: op
