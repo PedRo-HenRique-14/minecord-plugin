@@ -31,8 +31,8 @@ public class BotMention {
             if (event.getMessage().getContentRaw().trim().equals(arisiaBot.getAsMention())){
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.setAuthor(member.getUser().getName(), member.getEffectiveAvatarUrl(),member.getEffectiveAvatarUrl());
-                embed.setTitle("Opa %s, bão?", member.getEffectiveName());
-                embed.setDescription("Está precisando de ajuda com o código? Se a resposta for não, pode ignorar esta mensagem. Mas se a resposta for sim, eu vou te explicar como funciona. Faz assim, vai no **privado** do %s e envia esse `código` que apareceu na sua tela quando você tentou entrar em Arísia. Depois de enviar o código, você estará livre para jogar! Se tiver qualquer dúvida, não exite em perguntar.");
+                embed.setTitle(String.format("Opa %s, bão?", member.getEffectiveName()));
+                embed.setDescription(String.format("Está precisando de ajuda com o código? Se a resposta for não, pode ignorar esta mensagem. Mas se a resposta for sim, eu vou te explicar como funciona. Faz assim, vai no **privado** do %s e envia esse `código` que apareceu na sua tela quando você tentou entrar em Arísia. Depois de enviar o código, você estará livre para jogar! Se tiver qualquer dúvida, não exite em perguntar.", arisiaBot.getAsMention()));
                 embed.setColor(new Color(68, 68, 68));
                 embed.setThumbnail(arisiaBot.getAvatarUrl());
                 event.getChannel().sendMessageEmbeds(embed.build()).queue();
