@@ -152,7 +152,8 @@ public class UserPromote implements ICommand {
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setTitle("✅ Cargo(s) adicionado(s) com sucesso!");
             embedBuilder.setDescription(String.format("Os seguintes cargos foram adicionados à %s: %s", memberSelected.getAsMention(), description));
-            embedBuilder.setThumbnail(memberSelected.getAvatarUrl());
+            embedBuilder.setThumbnail(memberSelected.getEffectiveAvatarUrl());
+            embedBuilder.setAuthor(event.getMember().getEffectiveName(), event.getMember().getEffectiveAvatarUrl(), event.getMember().getEffectiveAvatarUrl());
             embedBuilder.setColor(new Color(28, 121, 171));
             event.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
             return;

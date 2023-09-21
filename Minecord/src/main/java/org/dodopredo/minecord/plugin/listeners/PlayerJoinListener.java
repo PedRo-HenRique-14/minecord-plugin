@@ -17,7 +17,7 @@ public class PlayerJoinListener implements Listener {
         Player player = event.getPlayer();
 
         if (Minecord.GLOBAL_CHANNEL_ENABLE) {
-            TextChannel channel = Minecord.getJda().getTextChannelById(Minecord.GLOBAL_CHANNEL);
+            TextChannel channel = Minecord.getJda().getTextChannelById(Minecord.GLOBAL_CHANNEL_ID);
 
             EmbedBuilder embed = new EmbedBuilder();
             embed.setAuthor(player.getDisplayName(), null, String.format("https://mc-heads.net/avatar/%s", player.getUniqueId()));
@@ -32,7 +32,7 @@ public class PlayerJoinListener implements Listener {
         Player player = event.getPlayer();
 
         if (Minecord.GLOBAL_CHANNEL_ENABLE) {
-            TextChannel channel = Minecord.getJda().getTextChannelById(Minecord.GLOBAL_CHANNEL);
+            TextChannel channel = Minecord.getJda().getTextChannelById(Minecord.GLOBAL_CHANNEL_ID);
 
             EmbedBuilder embed = new EmbedBuilder();
             embed.setAuthor(player.getDisplayName(), null, String.format("https://mc-heads.net/avatar/%s", player.getUniqueId()));

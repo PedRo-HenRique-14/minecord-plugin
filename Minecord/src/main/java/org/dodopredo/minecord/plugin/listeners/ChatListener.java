@@ -23,7 +23,7 @@ public class ChatListener implements Listener {
             embed.setAuthor(player.getDisplayName(), null, String.format("https://mc-heads.net/avatarr/%s", player.getUniqueId()));
             embed.setDescription(event.getMessage());
 
-            TextChannel channel = Minecord.getJda().getTextChannelById(Minecord.GLOBAL_CHANNEL);
+            TextChannel channel = Minecord.getJda().getTextChannelById(Minecord.GLOBAL_CHANNEL_ID);
             channel.sendMessageEmbeds(embed.build()).queue();
         }
     }

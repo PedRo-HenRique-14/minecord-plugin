@@ -1,10 +1,12 @@
 package org.dodopredo.minecord.bot.commands;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.dodopredo.minecord.Minecord;
 import org.dodopredo.minecord.utils.interfaces.ICommand;
 
+import java.awt.*;
 import java.util.List;
 
 public class Ping implements ICommand {
@@ -33,6 +35,9 @@ public class Ping implements ICommand {
         event.deferReply().setEphemeral(true).queue();
         long botPingValue= Minecord.getJda().getGatewayPing();
 
-        event.getHook().sendMessage(String.format("%s ms", botPingValue)).queue();
+        EmbedBuilder embed = new EmbedBuilder();
+        embed.setTitle(String.format("%s ms", botPingValue));
+        embed.setColor(new Color(45, 162, 10));
+        event.getHook().sendMessageEmbeds(embed.build()).queue();
     }
 }

@@ -14,8 +14,6 @@ professions:
   # E assim por diante.
   whitelistedRoles:
     - 0
-    - 0
-    - 0
   # professionsRolesIds se refere aos cargos de profissão que serão aplicados ao utilizar os comandos do bot /promover e /rebaixar
   # Adicione os IDs dos cargos desta forma:
   # - 123
@@ -24,12 +22,15 @@ professions:
   # E assim por diante.
   professionsRolesIds:
     - 0
-    - 0
-    - 0
   #bossRoleId refere-se ao cargo de chefe das profissões
   bossRoleId: 0
 
 textChannels:
+  medicalLog:
+    # Envia o regsitro médico para o canal selecionado do Discord
+    enable: true
+    #Id do canal de registros
+    ID: 0
   globalChannel:
     # Enviar informações globais para o Discord?
     enable: false
