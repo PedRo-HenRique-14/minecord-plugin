@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MedicalLog implements CommandExecutor, TabCompleter {
 
-    String[] treatments = new String[]{"gesso", "antibiótico", "kit-médico"};
+    String[] treatments = new String[]{"gesso", "consulta", "kit-médico", "hidráureys", "desathos", "mandrasate", "necrorife", "malaíte"};
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
@@ -36,7 +36,7 @@ public class MedicalLog implements CommandExecutor, TabCompleter {
                 }
                 if (target != null){
                     if (validTreatment) {
-                        String message = String.format("O médico `%s` tratou o paciente `%s` com o remédio `%s`.", player.getDisplayName(), target.getDisplayName(), strings[1].toLowerCase());
+                        String message = String.format("O médico `%s` tratou o paciente `%s`: `%s`.", player.getDisplayName(), target.getDisplayName(), strings[1].toLowerCase());
                         ChatBroadcast.sendToDiscordEmbed(Minecord.MEDICAL_LOG_CHANNEL_ID, "Registro médico.", message, new Color(168, 15, 15), player, String.format("https://mc-heads.net/avatar/%s", target.getName()));
                         player.sendMessage(ChatColor.GREEN + "Registro efetuado com sucesso!");
                     } else {
